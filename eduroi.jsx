@@ -5,6 +5,7 @@ import {
   ReferenceLine, CartesianGrid
 } from "recharts";
 import { Download, TrendingUp, ChevronDown, ChevronUp, AlertTriangle } from "lucide-react";
+import { Analytics } from "@vercel/analytics/react";
 
 const C = {
   bg: '#262220', surface: '#302C29', surface2: '#3A3633',
@@ -799,6 +800,7 @@ export default function EduROI() {
           )}
         </div>
       </div>
+      <Analytics />
     </div>
   );
 }
