@@ -3,7 +3,6 @@ import cors from "cors";
 import { get as cacheGet, set as cacheSet } from "./cache.js";
 import { DEFAULTS } from "./defaults.js";
 import "dotenv/config";
-import { createClient } from "@vercel/kv";
 
 const app = express();
 app.use(cors());
@@ -97,6 +96,7 @@ app.get("/api/defaults", (req, res) => {
 // Increments on every call, returns the running total
 app.get("/api/visits", async (req, res) => {
   try {
+    const { createClient } = await import("@vercel/kv");
     const kv = createClient({
       url: process.env.KV_REST_API_URL,
       token: process.env.KV_REST_API_TOKEN,
