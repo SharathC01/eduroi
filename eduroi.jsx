@@ -118,14 +118,14 @@ const ChartTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   const [yr, age] = (label || '').split('·');
   return (
-    <div style={{ background: C.surface2, border: `1px solid ${C.border}`, borderRadius: 8, padding: '9px 14px', fontFamily: F.mono, fontSize: 12 }}>
-      <div style={{ color: C.muted, marginBottom: 6, fontSize: 11 }}>
+    <div style={{ background: C.surface2, border: `1px solid ${C.border}`, borderRadius: 8, padding: '9px 14px', fontFamily: F.mono, fontSize: 13 }}>
+      <div style={{ color: C.muted, marginBottom: 6, fontSize: 12 }}>
         {yr}{age ? <span style={{ color: C.faint }}> · age {age}</span> : null}
       </div>
       {payload.map((p, i) => (
         <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, lineHeight: '22px' }}>
           <span style={{ width: 7, height: 7, borderRadius: '50%', background: p.stroke || p.fill || C.accent, flexShrink: 0 }} />
-          <span style={{ color: C.muted, fontSize: 11, minWidth: 80 }}>{p.name}</span>
+          <span style={{ color: C.muted, fontSize: 12, minWidth: 80 }}>{p.name}</span>
           <span style={{ color: C.text, marginLeft: 'auto' }}>{fmtL(p.value)}</span>
         </div>
       ))}
@@ -273,21 +273,21 @@ export default function EduROI() {
   // Styles
   const inpStyle = {
     background: C.surface2, border: `1px solid ${C.border}`, borderRadius: 6,
-    color: C.text, padding: '8px 10px', fontFamily: F.mono, fontSize: 13,
+    color: C.text, padding: '8px 10px', fontFamily: F.mono, fontSize: 14,
     width: '100%', outline: 'none', transition: 'border-color 0.15s',
   };
   const lbl = {
-    fontSize: 10, color: C.muted, fontFamily: F.body, marginBottom: 4,
+    fontSize: 11, color: C.muted, fontFamily: F.body, marginBottom: 4,
     display: 'block', textTransform: 'uppercase', letterSpacing: '0.07em',
   };
   const pill = (active) => ({
-    padding: '6px 12px', borderRadius: 100, fontSize: 12, cursor: 'pointer',
+    padding: '6px 12px', borderRadius: 100, fontSize: 13, cursor: 'pointer',
     fontFamily: F.body, border: `1px solid ${active ? C.accent : C.border}`,
     background: active ? 'rgba(249,115,22,0.12)' : 'transparent',
     color: active ? C.accent : C.muted, transition: 'all 0.15s', outline: 'none',
   });
   const secLabel = {
-    fontSize: 10, color: C.accent, fontFamily: F.body,
+    fontSize: 11, color: C.accent, fontFamily: F.body,
     textTransform: 'uppercase', letterSpacing: '0.1em',
     display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, marginTop: 4,
   };
@@ -299,6 +299,7 @@ export default function EduROI() {
     <div style={{ fontFamily: F.body, background: C.bg, color: C.text, height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap');
+        html, body { margin: 0; padding: 0; }
         * { box-sizing: border-box; }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #1C1917; }
@@ -324,11 +325,11 @@ export default function EduROI() {
           <div style={{ background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.25)', borderRadius: 8, padding: '6px 7px', display: 'flex' }}>
             <TrendingUp size={16} color={C.accent} />
           </div>
-          <span style={{ fontFamily: F.display, fontSize: 20, fontWeight: 600, letterSpacing: '-0.02em' }}>EduROI</span>
+          <span style={{ fontFamily: F.display, fontSize: 21, fontWeight: 600, letterSpacing: '-0.02em' }}>EduROI</span>
         </div>
         <div style={{ width: 1, height: 18, background: C.border }} />
-        <span style={{ fontSize: 13, color: C.faint }}>Higher Education Investment Calculator</span>
-        <div style={{ marginLeft: 'auto', background: 'rgba(134,239,172,0.07)', border: '1px solid rgba(134,239,172,0.18)', borderRadius: 100, padding: '3px 11px', fontSize: 11, color: C.positive, letterSpacing: '0.03em' }}>
+        <span style={{ fontSize: 14, color: C.faint }}>Higher Education Investment Calculator</span>
+        <div style={{ marginLeft: 'auto', background: 'rgba(134,239,172,0.07)', border: '1px solid rgba(134,239,172,0.18)', borderRadius: 100, padding: '3px 11px', fontSize: 12, color: C.positive, letterSpacing: '0.03em' }}>
           For Indian Students
         </div>
       </div>
@@ -341,19 +342,19 @@ export default function EduROI() {
           {/* Data Status Badge */}
           <div style={{ marginBottom: 14, display: 'flex', alignItems: 'center', gap: 7 }}>
             {dataStatus === 'loading' && (
-              <span style={{ fontSize: 11, color: C.faint, fontFamily: F.mono, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ fontSize: 12, color: C.faint, fontFamily: F.mono, display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.faint, display: 'inline-block', animation: 'pulse 1.2s ease-in-out infinite' }} />
                 Fetching live rates…
               </span>
             )}
             {dataStatus === 'live' && (
-              <span style={{ fontSize: 11, color: C.positive, fontFamily: F.mono, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ fontSize: 12, color: C.positive, fontFamily: F.mono, display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.positive, display: 'inline-block' }} />
                 Live data
               </span>
             )}
             {dataStatus === 'estimates' && (
-              <span style={{ fontSize: 11, color: '#FCD34D', fontFamily: F.mono, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ fontSize: 12, color: '#FCD34D', fontFamily: F.mono, display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#FCD34D', display: 'inline-block' }} />
                 Using estimates
               </span>
@@ -368,7 +369,7 @@ export default function EduROI() {
                 <button key={name} className="country-btn" onClick={() => resetPresets(name)}
                   style={{ ...pill(country === name), display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, padding: '9px 4px', borderRadius: 9 }}>
                   <span style={{ fontSize: 22 }}>{data.flag}</span>
-                  <span style={{ fontSize: 11 }}>{name}</span>
+                  <span style={{ fontSize: 12 }}>{name}</span>
                 </button>
               ))}
             </div>
@@ -385,7 +386,7 @@ export default function EduROI() {
           </div>
 
           {/* Preset hint */}
-          <div style={{ background: 'rgba(249,115,22,0.06)', border: '1px solid rgba(249,115,22,0.13)', borderRadius: 8, padding: '9px 12px', marginBottom: 16, fontSize: 12, lineHeight: '18px' }}>
+          <div style={{ background: 'rgba(249,115,22,0.06)', border: '1px solid rgba(249,115,22,0.13)', borderRadius: 8, padding: '9px 12px', marginBottom: 16, fontSize: 13, lineHeight: '20px' }}>
             <span style={{ color: C.accent }}>{field}</span> in <span style={{ color: C.accent }}>{country}</span>
             <span style={{ color: C.faint }}> · </span>
             <span style={{ fontFamily: F.mono, color: C.text }}>{co.symbol}{co.salary[field].toLocaleString()}/yr</span>
@@ -393,7 +394,13 @@ export default function EduROI() {
             <span style={{ color: C.muted }}>Living </span>
             <span style={{ fontFamily: F.mono, color: C.text }}>{co.symbol}{co.living}/mo</span>
             <span style={{ color: C.faint }}> · </span>
-            <span style={{ fontFamily: F.mono, color: C.text }}>₹{co.rate}/{co.currency}</span>
+            <span style={{ fontFamily: F.mono, color: C.text }}>₹{co.rate.toFixed(2)}/{co.currency}</span>
+            {dataStatus === 'live' && (
+              <a href="https://frankfurter.app" target="_blank" rel="noopener noreferrer"
+                style={{ fontSize: 10, color: C.faint, fontFamily: F.mono, marginLeft: 5, textDecoration: 'none', borderBottom: `1px dotted ${C.faint}`, verticalAlign: 'middle' }}>
+                live ↗
+              </a>
+            )}
           </div>
 
           {/* Model A Inputs */}
@@ -421,8 +428,8 @@ export default function EduROI() {
 
           {/* Refine Toggle */}
           <button onClick={() => setShowDetailed(!showDetailed)}
-            style={{ width: '100%', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: 8, padding: '10px 14px', color: C.muted, cursor: 'pointer', fontFamily: F.body, fontSize: 12.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: showDetailed ? 16 : 18, outline: 'none', transition: 'border-color 0.15s' }}>
-            <span>Refine your inputs <span style={{ color: C.faint, fontSize: 11 }}>▾ 15 more fields</span></span>
+            style={{ width: '100%', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: 8, padding: '10px 14px', color: C.muted, cursor: 'pointer', fontFamily: F.body, fontSize: 13.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: showDetailed ? 16 : 18, outline: 'none', transition: 'border-color 0.15s' }}>
+            <span>Refine your inputs <span style={{ color: C.faint, fontSize: 12 }}>▾ 15 more fields</span></span>
             {showDetailed ? <ChevronUp size={14} color={C.faint} /> : <ChevronDown size={14} color={C.faint} />}
           </button>
 
@@ -503,7 +510,7 @@ export default function EduROI() {
                   <input className="inp-field" type="number" style={inpStyle} value={inrDrift} onChange={e => setInrDrift(+e.target.value)} step="0.1" />
                 </div>
                 <div>
-                  <label style={lbl}>Destination Inflation (%)</label>
+                  <label style={lbl}>Destination Inflation (%) <a href="https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG" target="_blank" rel="noopener noreferrer" style={{ color: C.faint, fontSize: 9, fontFamily: F.mono, textDecoration: 'none', borderBottom: `1px dotted ${C.faint}`, letterSpacing: 0 }}>World Bank ↗</a></label>
                   <input className="inp-field" type="number" style={inpStyle} value={inflation ?? co.inflation} onChange={e => setInflation(+e.target.value)} step="0.1" />
                 </div>
               </div>
@@ -512,7 +519,7 @@ export default function EduROI() {
 
           {/* CTA */}
           <button className="calc-btn" onClick={() => setCalculated(true)}
-            style={{ width: '100%', background: C.accent, border: 'none', borderRadius: 10, padding: '13px', color: '#fff', cursor: 'pointer', fontFamily: F.body, fontSize: 14, fontWeight: 500, letterSpacing: '0.02em', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+            style={{ width: '100%', background: C.accent, border: 'none', borderRadius: 10, padding: '13px', color: '#fff', cursor: 'pointer', fontFamily: F.body, fontSize: 15, fontWeight: 500, letterSpacing: '0.02em', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
             Calculate my ROI →
           </button>
         </div>
@@ -524,10 +531,10 @@ export default function EduROI() {
           <div style={{ background: C.surface2, border: `1px solid ${C.border}`, borderRadius: 9, padding: '14px 16px', marginBottom: 22, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
             <AlertTriangle size={13} color={C.faint} style={{ flexShrink: 0, marginTop: 2 }} />
             <div>
-              <p style={{ fontSize: 12.5, color: C.muted, lineHeight: '20px', fontFamily: F.body, margin: 0, marginBottom: 8 }}>
+              <p style={{ fontSize: 17, color: C.muted, lineHeight: '26px', fontFamily: F.body, margin: 0, marginBottom: 10 }}>
                 Going abroad for a degree is one of the biggest financial decisions you'll make. The excitement is real — but so are the numbers. EduROI puts those numbers in front of you: your investment, your opportunity cost, your projected returns. No fear, no hype. Just data, so you can decide with clarity.
               </p>
-              <p style={{ fontSize: 11, color: C.faint, lineHeight: '17px', fontFamily: F.body, margin: 0 }}>
+              <p style={{ fontSize: 15, color: C.faint, lineHeight: '22px', fontFamily: F.body, margin: 0 }}>
                 Uses statistical averages and publicly sourced data. Salary ranges reflect 2024 market data. Currency rates, inflation, and job market conditions fluctuate. Treat this as a <em style={{ color: C.muted }}>thinking instrument</em>, not a financial guarantee. Consult a financial advisor for major life decisions.
               </p>
             </div>
@@ -538,13 +545,13 @@ export default function EduROI() {
               <div style={{ background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.18)', borderRadius: 28, padding: 32, marginBottom: 4 }}>
                 <TrendingUp size={48} color={C.accent} />
               </div>
-              <div style={{ fontFamily: F.display, fontSize: 26, fontWeight: 600, color: C.muted, letterSpacing: '-0.02em' }}>Your 20-year projection</div>
-              <div style={{ fontSize: 13, color: C.faint, maxWidth: 280, lineHeight: '20px' }}>Fill in your details on the left and hit Calculate to see your full wealth trajectory vs staying in India</div>
+              <div style={{ fontFamily: F.display, fontSize: 27, fontWeight: 600, color: C.muted, letterSpacing: '-0.02em' }}>Your 20-year projection</div>
+              <div style={{ fontSize: 14, color: C.faint, maxWidth: 280, lineHeight: '21px' }}>Fill in your details on the left and hit Calculate to see your full wealth trajectory vs staying in India</div>
               <div style={{ display: 'flex', gap: 20, marginTop: 10 }}>
                 {['Break-even Year', '10-yr NPV', '20-yr NPV'].map(s => (
                   <div key={s} style={{ textAlign: 'center' }}>
-                    <div style={{ fontFamily: F.mono, fontSize: 22, color: C.border, marginBottom: 4 }}>—</div>
-                    <div style={{ fontSize: 10, color: C.faint, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s}</div>
+                    <div style={{ fontFamily: F.mono, fontSize: 23, color: C.border, marginBottom: 4 }}>—</div>
+                    <div style={{ fontSize: 11, color: C.faint, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s}</div>
                   </div>
                 ))}
               </div>
@@ -573,9 +580,9 @@ export default function EduROI() {
                   },
                 ].map((card, i) => (
                   <div key={i} style={{ background: C.surface, borderRadius: 10, padding: '14px 15px', border: `1px solid ${C.border}`, borderTop: `2px solid ${card.color}` }}>
-                    <div style={{ fontSize: 10, color: C.muted, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>{card.label}</div>
-                    <div style={{ fontFamily: F.mono, fontSize: 19, color: card.color, fontWeight: 500, lineHeight: '24px' }}>{card.val}</div>
-                    <div style={{ fontSize: 11, color: C.faint, marginTop: 5 }}>{card.sub}</div>
+                    <div style={{ fontSize: 11, color: C.muted, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>{card.label}</div>
+                    <div style={{ fontFamily: F.mono, fontSize: 20, color: card.color, fontWeight: 500, lineHeight: '25px' }}>{card.val}</div>
+                    <div style={{ fontSize: 12, color: C.faint, marginTop: 5 }}>{card.sub}</div>
                   </div>
                 ))}
               </div>
@@ -585,7 +592,7 @@ export default function EduROI() {
                 <div style={{ display: 'flex', borderBottom: `1px solid ${C.border}`, padding: '0 20px', gap: 4 }}>
                   {tabs.map((tab, i) => (
                     <button key={i} className="tab-btn" onClick={() => setActiveTab(i)}
-                      style={{ padding: '12px 16px', background: 'transparent', border: 'none', color: activeTab === i ? C.accent : C.faint, fontFamily: F.body, fontSize: 12, cursor: 'pointer', borderBottom: `2px solid ${activeTab === i ? C.accent : 'transparent'}`, marginBottom: -1, transition: 'color 0.15s', outline: 'none' }}>
+                      style={{ padding: '12px 16px', background: 'transparent', border: 'none', color: activeTab === i ? C.accent : C.faint, fontFamily: F.body, fontSize: 13, cursor: 'pointer', borderBottom: `2px solid ${activeTab === i ? C.accent : 'transparent'}`, marginBottom: -1, transition: 'color 0.15s', outline: 'none' }}>
                       {tab}
                     </button>
                   ))}
@@ -641,17 +648,17 @@ export default function EduROI() {
                     {/* NPV Explainer */}
                     <div style={{ margin: '16px 8px 4px', background: C.surface2, border: `1px solid ${C.border}`, borderRadius: 10, padding: '14px 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 24px' }}>
                       <div style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 4 }}>
-                        <span style={{ fontFamily: F.display, fontSize: 13, fontWeight: 600, color: C.text }}>What is Net NPV?</span>
-                        <span style={{ fontSize: 10, color: C.faint, fontFamily: F.mono }}>Net Present Value — in today's ₹</span>
+                        <span style={{ fontFamily: F.display, fontSize: 14, fontWeight: 600, color: C.text }}>What is Net NPV?</span>
+                        <span style={{ fontSize: 11, color: C.faint, fontFamily: F.mono }}>Net Present Value — in today's ₹</span>
                       </div>
                       <div>
-                        <div style={{ fontSize: 11, color: C.muted, lineHeight: '18px' }}>
+                        <div style={{ fontSize: 12, color: C.muted, lineHeight: '19px' }}>
                           <strong style={{ color: C.text, fontWeight: 500 }}>NPV discounts future money</strong> to what it's worth today, accounting for inflation. ₹1 lakh ten years from now is worth less than ₹1 lakh now — NPV corrects for that, so all years are comparable.
                         </div>
                       </div>
                       <div>
-                        <div style={{ fontSize: 11, color: C.muted, lineHeight: '18px' }}>
-                          <strong style={{ color: C.text, fontWeight: 500 }}>How it's calculated here:</strong> Each year, the discounted difference <span style={{ fontFamily: F.mono, fontSize: 10, color: C.faint }}>(abroad salary − India salary − loan EMI)</span> is added cumulatively, then the full investment cost is subtracted from the start.
+                        <div style={{ fontSize: 12, color: C.muted, lineHeight: '19px' }}>
+                          <strong style={{ color: C.text, fontWeight: 500 }}>How it's calculated here:</strong> Each year, the discounted difference <span style={{ fontFamily: F.mono, fontSize: 11, color: C.faint }}>(abroad salary − India salary − loan EMI)</span> is added cumulatively, then the full investment cost is subtracted from the start.
                         </div>
                       </div>
                       <div style={{ gridColumn: '1 / -1', borderTop: `1px solid ${C.border}`, paddingTop: 10, display: 'flex', gap: 20 }}>
@@ -662,7 +669,7 @@ export default function EduROI() {
                         ].map((item, i) => (
                           <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 7, flex: 1 }}>
                             <span style={{ width: 7, height: 7, borderRadius: '50%', background: item.dot, flexShrink: 0, marginTop: 3 }} />
-                            <span style={{ fontSize: 10, color: C.faint, lineHeight: '16px' }}>{item.text}</span>
+                            <span style={{ fontSize: 11, color: C.faint, lineHeight: '17px' }}>{item.text}</span>
                           </div>
                         ))}
                       </div>
@@ -694,14 +701,14 @@ export default function EduROI() {
                     {/* Annual Gain Explainer */}
                     <div style={{ margin: '16px 8px 4px', background: C.surface2, border: `1px solid ${C.border}`, borderRadius: 10, padding: '14px 16px' }}>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 10 }}>
-                        <span style={{ fontFamily: F.display, fontSize: 13, fontWeight: 600, color: C.text }}>Reading this chart</span>
-                        <span style={{ fontSize: 10, color: C.faint, fontFamily: F.mono }}>Y-axis starts above zero to show year-on-year change</span>
+                        <span style={{ fontFamily: F.display, fontSize: 14, fontWeight: 600, color: C.text }}>Reading this chart</span>
+                        <span style={{ fontSize: 11, color: C.faint, fontFamily: F.mono }}>Y-axis starts above zero to show year-on-year change</span>
                       </div>
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 24px', marginBottom: 10 }}>
-                        <div style={{ fontSize: 11, color: C.muted, lineHeight: '18px' }}>
+                        <div style={{ fontSize: 12, color: C.muted, lineHeight: '19px' }}>
                           <strong style={{ color: C.text, fontWeight: 500 }}>Each bar</strong> is the real purchasing-power gain for that single year — how much more you earn abroad vs India that year, after discounting for inflation, expressed in today's rupees.
                         </div>
-                        <div style={{ fontSize: 11, color: C.muted, lineHeight: '18px' }}>
+                        <div style={{ fontSize: 12, color: C.muted, lineHeight: '19px' }}>
                           <strong style={{ color: C.text, fontWeight: 500 }}>Why bars look similar:</strong> Abroad salary growth + INR depreciation roughly cancel out inflation discounting, so the real annual advantage stays broadly flat. A rising trend means you're pulling ahead faster over time.
                         </div>
                       </div>
@@ -713,7 +720,7 @@ export default function EduROI() {
                         ].map((item, i) => (
                           <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 7, flex: 1 }}>
                             <span style={{ width: 7, height: 7, borderRadius: '50%', background: item.dot, flexShrink: 0, marginTop: 3 }} />
-                            <span style={{ fontSize: 10, color: C.faint, lineHeight: '16px' }}>{item.text}</span>
+                            <span style={{ fontSize: 11, color: C.faint, lineHeight: '17px' }}>{item.text}</span>
                           </div>
                         ))}
                       </div>
@@ -726,8 +733,8 @@ export default function EduROI() {
               {/* SENSITIVITY */}
               <div style={{ background: C.surface, borderRadius: 12, border: `1px solid ${C.border}`, padding: '18px 20px', marginBottom: 16 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 18 }}>
-                  <div style={{ fontFamily: F.display, fontSize: 15, fontWeight: 600 }}>Sensitivity Analysis</div>
-                  <div style={{ fontSize: 11, color: C.faint }}>Drag sliders — charts update live</div>
+                  <div style={{ fontFamily: F.display, fontSize: 16, fontWeight: 600 }}>Sensitivity Analysis</div>
+                  <div style={{ fontSize: 12, color: C.faint }}>Drag sliders — charts update live</div>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
                   {[
@@ -737,16 +744,16 @@ export default function EduROI() {
                   ].map((s, i) => (
                     <div key={i}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
-                        <span style={{ fontSize: 11, color: C.muted }}>{s.label}</span>
-                        <span style={{ fontFamily: F.mono, fontSize: 13, fontWeight: 500, color: s.val === 0 ? C.faint : (i === 0 ? (s.val > 0 ? C.positive : C.negative) : C.negative) }}>
+                        <span style={{ fontSize: 12, color: C.muted }}>{s.label}</span>
+                        <span style={{ fontFamily: F.mono, fontSize: 14, fontWeight: 500, color: s.val === 0 ? C.faint : (i === 0 ? (s.val > 0 ? C.positive : C.negative) : C.negative) }}>
                           {s.fmt(s.val)}
                         </span>
                       </div>
                       <input type="range" min={s.min} max={s.max} step={s.step} value={s.val} onChange={e => s.set(+e.target.value)} />
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 5 }}>
-                        <span style={{ fontSize: 9, color: C.faint, fontFamily: F.mono }}>{s.fmt(s.min)}</span>
-                        <span style={{ fontSize: 10, color: C.faint, fontStyle: 'italic' }}>{s.hint}</span>
-                        <span style={{ fontSize: 9, color: C.faint, fontFamily: F.mono }}>{s.fmt(s.max)}</span>
+                        <span style={{ fontSize: 10, color: C.faint, fontFamily: F.mono }}>{s.fmt(s.min)}</span>
+                        <span style={{ fontSize: 11, color: C.faint, fontStyle: 'italic' }}>{s.hint}</span>
+                        <span style={{ fontSize: 10, color: C.faint, fontFamily: F.mono }}>{s.fmt(s.max)}</span>
                       </div>
                     </div>
                   ))}
@@ -762,9 +769,9 @@ export default function EduROI() {
                 ].map((b, i) => (
                   <div key={i} style={{ background: C.surface, borderRadius: 10, padding: '14px 15px', border: `1px solid ${C.border}`, borderLeft: `3px solid ${b.accent}` }}>
                     <div style={{ fontSize: 18, marginBottom: 8 }}>{b.icon}</div>
-                    <div style={{ fontSize: 11, color: C.muted, marginBottom: 6, lineHeight: '16px' }}>{b.label}</div>
-                    <div style={{ fontFamily: F.mono, fontSize: 18, color: C.text, fontWeight: 500 }}>{b.val}</div>
-                    <div style={{ fontSize: 10, color: C.faint, marginTop: 5 }}>{b.sub}</div>
+                    <div style={{ fontSize: 12, color: C.muted, marginBottom: 6, lineHeight: '17px' }}>{b.label}</div>
+                    <div style={{ fontFamily: F.mono, fontSize: 19, color: C.text, fontWeight: 500 }}>{b.val}</div>
+                    <div style={{ fontSize: 11, color: C.faint, marginTop: 5 }}>{b.sub}</div>
                   </div>
                 ))}
               </div>
@@ -772,7 +779,7 @@ export default function EduROI() {
               {/* EXPORT */}
               <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
                 <button className="export-btn" onClick={exportCSV}
-                  style={{ display: 'flex', alignItems: 'center', gap: 6, background: C.surface2, border: `1px solid ${C.border}`, borderRadius: 7, padding: '8px 15px', color: C.muted, cursor: 'pointer', fontFamily: F.body, fontSize: 12, transition: 'all 0.15s', outline: 'none' }}>
+                  style={{ display: 'flex', alignItems: 'center', gap: 6, background: C.surface2, border: `1px solid ${C.border}`, borderRadius: 7, padding: '8px 15px', color: C.muted, cursor: 'pointer', fontFamily: F.body, fontSize: 13, transition: 'all 0.15s', outline: 'none' }}>
                   <Download size={12} /> Export CSV
                 </button>
               </div>
@@ -780,12 +787,12 @@ export default function EduROI() {
               {/* LAST UPDATED FOOTER */}
               <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 10, marginTop: 4, paddingBottom: 8 }}>
                 {fetchedAt && (
-                  <span style={{ fontSize: 10, color: C.faint, fontFamily: F.mono }}>
+                  <span style={{ fontSize: 11, color: C.faint, fontFamily: F.mono }}>
                     Data fetched {fetchedAt.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} at {fetchedAt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 )}
                 {!fetchedAt && (
-                  <span style={{ fontSize: 10, color: C.faint, fontFamily: F.mono }}>Using built-in estimates · salary data as of Jan 2024</span>
+                  <span style={{ fontSize: 11, color: C.faint, fontFamily: F.mono }}>Using built-in estimates · salary data as of Jan 2024</span>
                 )}
               </div>
             </>
