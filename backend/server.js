@@ -3,6 +3,7 @@ import cors from "cors";
 import { get as cacheGet, set as cacheSet } from "./cache.js";
 import { DEFAULTS } from "./defaults.js";
 import "dotenv/config";
+import { createClient } from "@vercel/kv";
 
 const app = express();
 app.use(cors());
@@ -90,6 +91,22 @@ app.get("/api/inflation", async (req, res) => {
 // No external API; just serves the local defaults.js file
 app.get("/api/defaults", (req, res) => {
   res.json(DEFAULTS);
+});
+
+// GET /api/visits — persistent page-view counter backed by Vercel KV (free Redis)
+// Increments on every call, returns the running total
+app.get("/api/visits", async (req, res) => {
+  try {
+    const kv = createClient({
+      url: process.env.KV_REST_API_URL,
+      token: process.env.KV_REST_API_TOKEN,
+    });
+    const count = await kv.incr("eduroi_visits");
+    res.json({ count });
+  } catch {
+    // KV not configured (local dev) or unavailable — return null silently
+    res.json({ count: null });
+  }
 });
 
 // Export for Vercel serverless — Vercel calls the handler directly, no listen() needed

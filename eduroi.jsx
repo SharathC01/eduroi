@@ -34,25 +34,25 @@ function calcROI(inp) {
   const co = inp.co;
   const dur = inp.duration || 2;
   const drift = (inp.inrDrift || 1.5) / 100;
-  const tuitionINR = (inp.tuition || 20000) * dur * co.rate;
-  const livingINR = (inp.livingCost || co.living) * 12 * dur * co.rate;
-  const C0 = tuitionINR + livingINR + (inp.oneTime || 200000);
-  const indiaSalAnn = (inp.currentSalary || 80000) * 12;
+  const tuitionINR = (inp.tuition ?? 20000) * dur * co.rate;
+  const livingINR = (inp.livingCost ?? co.living) * 12 * dur * co.rate;
+  const C0 = tuitionINR + livingINR + (inp.oneTime ?? 200000);
+  const indiaSalAnn = (inp.currentSalary ?? 80000) * 12;
   const jobBuf = inp.jobSearchMonths ?? 3;
   const B0 = indiaSalAnn * (dur + jobBuf / 12);
   const totalInv = C0 + B0;
-  const loanAmt = inp.loanAmount || 0;
-  const mlr = (inp.loanRate || co.loanRate) / 100 / 12;
-  const n = (inp.loanYears || 10) * 12;
+  const loanAmt = inp.loanAmount ?? 0;
+  const mlr = (inp.loanRate ?? co.loanRate) / 100 / 12;
+  const n = (inp.loanYears ?? 10) * 12;
   const emi = loanAmt > 0 ? loanAmt * mlr * Math.pow(1+mlr,n) / (Math.pow(1+mlr,n)-1) : 0;
   const annualLoan = emi * 12;
-  const indGrowth = (inp.indiaSalaryGrowth || 8) / 100;
-  const baseSal = (inp.abroadSalary || co.salary[inp.field || "Tech"]) * (inp.salaryMult || 1);
-  const abrGrowth = (inp.abroadSalaryGrowth || co.growth) / 100;
-  const disc = (inp.inflation || co.inflation) / 100;
-  const planRet = inp.planReturn || false;
-  const retAfter = inp.returnAfter || 5;
-  const userAge = inp.age || 26;
+  const indGrowth = (inp.indiaSalaryGrowth ?? 8) / 100;
+  const baseSal = (inp.abroadSalary ?? co.salary[inp.field ?? "Tech"]) * (inp.salaryMult ?? 1);
+  const abrGrowth = (inp.abroadSalaryGrowth ?? co.growth) / 100;
+  const disc = (inp.inflation ?? co.inflation) / 100;
+  const planRet = inp.planReturn ?? false;
+  const retAfter = inp.returnAfter ?? 5;
+  const userAge = inp.age ?? 26;
   const startWorkAge = Math.round(userAge + dur + jobBuf / 12);
 
   const years = [];
@@ -62,7 +62,7 @@ function calcROI(inp) {
   let cumStudyNPV = 0, cumStudyIndia = 0;
   for (let s = 1; s <= dur; s++) {
     const indiaSalYear = indiaSalAnn * Math.pow(1 + indGrowth, s);
-    const yearCost = directPerYear + (s === 1 ? (inp.oneTime || 200000) : 0) + indiaSalYear;
+    const yearCost = directPerYear + (s === 1 ? (inp.oneTime ?? 200000) : 0) + indiaSalYear;
     cumStudyNPV -= yearCost;
     cumStudyIndia += indiaSalYear;
     years.push({
@@ -152,10 +152,9 @@ export default function EduROI() {
   const [visitorCount, setVisitorCount] = useState(null);
 
   useEffect(() => {
-    // Visitor counter — CountAPI (free, no auth)
-    fetch('https://api.countapi.xyz/hit/eduroi-app/visitors')
+    fetch(`${API_BASE_URL}/api/visits`)
       .then(r => r.ok ? r.json() : null)
-      .then(data => { if (data?.value) setVisitorCount(data.value); })
+      .then(d => { if (d?.count) setVisitorCount(d.count); })
       .catch(() => {});
 
     setDataStatus('loading');
@@ -238,8 +237,8 @@ export default function EduROI() {
     abroadSalary: abroadSalary ?? co.salary[field],
     abroadSalaryGrowth: abroadGrowth ?? co.growth,
     planReturn, returnAfter,
-    jobSearchMonths: jobSearch + jobAdj,
-    inrDrift: inrDrift + inrAdj,
+    jobSearchMonths: (jobSearch ?? 3) + jobAdj,
+    inrDrift: (inrDrift ?? 1.5) + inrAdj,
     inflation: inflation ?? co.inflation,
     salaryMult: 1 + salAdj / 100,
   }), [co,country,field,currentSalary,tuition,duration,indiaSalaryGrowth,age,livingCost,oneTime,loanAmount,loanRate,loanYears,abroadSalary,abroadGrowth,planReturn,returnAfter,jobSearch,inrDrift,inflation,salAdj,inrAdj,jobAdj]);
@@ -340,7 +339,7 @@ export default function EduROI() {
           {visitorCount !== null && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: C.surface2, border: `1px solid ${C.border}`, borderRadius: 100, padding: '3px 11px', fontSize: 12, color: C.faint, fontFamily: F.mono }}>
               <span style={{ width: 5, height: 5, borderRadius: '50%', background: C.accent, display: 'inline-block' }} />
-              {visitorCount.toLocaleString()} visits
+              {visitorCount.toLocaleString('en-IN')} visits
             </div>
           )}
           <div style={{ background: 'rgba(134,239,172,0.07)', border: '1px solid rgba(134,239,172,0.18)', borderRadius: 100, padding: '3px 11px', fontSize: 12, color: C.positive, letterSpacing: '0.03em' }}>
@@ -421,12 +420,12 @@ export default function EduROI() {
           {/* Model A Inputs */}
           <div style={{ marginBottom: 12 }}>
             <label style={lbl}>Current Monthly Salary (₹)</label>
-            <input className="inp-field" type="number" style={inpStyle} value={currentSalary} onChange={e => setCurrentSalary(+e.target.value)} />
+            <input className="inp-field" type="number" style={inpStyle} value={currentSalary ?? ''} onChange={e => setCurrentSalary(e.target.value === '' ? null : +e.target.value)} />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 10, marginBottom: 12 }}>
             <div>
               <label style={lbl}>Annual Tuition ({co.symbol})</label>
-              <input className="inp-field" type="number" style={inpStyle} value={tuition} onChange={e => setTuition(+e.target.value)} />
+              <input className="inp-field" type="number" style={inpStyle} value={tuition ?? ''} onChange={e => setTuition(e.target.value === '' ? null : +e.target.value)} />
             </div>
             <div>
               <label style={lbl}>Duration</label>
@@ -456,11 +455,11 @@ export default function EduROI() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 9, marginBottom: 16 }}>
                 <div>
                   <label style={lbl}>India Salary Growth (%/yr)</label>
-                  <input className="inp-field" type="number" style={inpStyle} value={indiaSalaryGrowth} onChange={e => setIndiaSalaryGrowth(+e.target.value)} step="0.5" />
+                  <input className="inp-field" type="number" style={inpStyle} value={indiaSalaryGrowth ?? ''} onChange={e => setIndiaSalaryGrowth(e.target.value === '' ? null : +e.target.value)} step="0.5" />
                 </div>
                 <div>
                   <label style={lbl}>Your Age</label>
-                  <input className="inp-field" type="number" style={inpStyle} value={age} onChange={e => setAge(+e.target.value)} />
+                  <input className="inp-field" type="number" style={inpStyle} value={age ?? ''} onChange={e => setAge(e.target.value === '' ? null : +e.target.value)} />
                 </div>
               </div>
 
@@ -468,23 +467,23 @@ export default function EduROI() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 9, marginBottom: 16 }}>
                 <div>
                   <label style={lbl}>Monthly Living ({co.symbol})</label>
-                  <input className="inp-field" type="number" style={inpStyle} value={livingCost ?? co.living} onChange={e => setLivingCost(+e.target.value)} />
+                  <input className="inp-field" type="number" style={inpStyle} value={livingCost ?? co.living} onChange={e => setLivingCost(e.target.value === '' ? null : +e.target.value)} />
                 </div>
                 <div>
                   <label style={lbl}>One-time Costs (₹)</label>
-                  <input className="inp-field" type="number" style={inpStyle} value={oneTime} onChange={e => setOneTime(+e.target.value)} />
+                  <input className="inp-field" type="number" style={inpStyle} value={oneTime ?? ''} onChange={e => setOneTime(e.target.value === '' ? null : +e.target.value)} />
                 </div>
                 <div>
                   <label style={lbl}>Loan Amount (₹)</label>
-                  <input className="inp-field" type="number" style={inpStyle} value={loanAmount} onChange={e => setLoanAmount(+e.target.value)} />
+                  <input className="inp-field" type="number" style={inpStyle} value={loanAmount ?? ''} onChange={e => setLoanAmount(e.target.value === '' ? null : +e.target.value)} />
                 </div>
                 <div>
                   <label style={lbl}>Loan Rate (%)</label>
-                  <input className="inp-field" type="number" style={inpStyle} value={loanRate} onChange={e => setLoanRate(+e.target.value)} step="0.1" />
+                  <input className="inp-field" type="number" style={inpStyle} value={loanRate ?? ''} onChange={e => setLoanRate(e.target.value === '' ? null : +e.target.value)} step="0.1" />
                 </div>
                 <div>
                   <label style={lbl}>Repayment Period (yrs)</label>
-                  <input className="inp-field" type="number" style={inpStyle} value={loanYears} onChange={e => setLoanYears(+e.target.value)} />
+                  <input className="inp-field" type="number" style={inpStyle} value={loanYears ?? ''} onChange={e => setLoanYears(e.target.value === '' ? null : +e.target.value)} />
                 </div>
               </div>
 
@@ -492,15 +491,15 @@ export default function EduROI() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 9, marginBottom: 16 }}>
                 <div>
                   <label style={lbl}>Starting Salary ({co.symbol}/yr)</label>
-                  <input className="inp-field" type="number" style={inpStyle} value={abroadSalary ?? co.salary[field]} onChange={e => setAbroadSalary(+e.target.value)} />
+                  <input className="inp-field" type="number" style={inpStyle} value={abroadSalary ?? co.salary[field]} onChange={e => setAbroadSalary(e.target.value === '' ? null : +e.target.value)} />
                 </div>
                 <div>
                   <label style={lbl}>Abroad Growth (%/yr)</label>
-                  <input className="inp-field" type="number" style={inpStyle} value={abroadGrowth ?? co.growth} onChange={e => setAbroadGrowth(+e.target.value)} step="0.5" />
+                  <input className="inp-field" type="number" style={inpStyle} value={abroadGrowth ?? co.growth} onChange={e => setAbroadGrowth(e.target.value === '' ? null : +e.target.value)} step="0.5" />
                 </div>
                 <div>
                   <label style={lbl}>Job Search Buffer (mo)</label>
-                  <input className="inp-field" type="number" style={inpStyle} value={jobSearch} onChange={e => setJobSearch(+e.target.value)} />
+                  <input className="inp-field" type="number" style={inpStyle} value={jobSearch ?? ''} onChange={e => setJobSearch(e.target.value === '' ? null : +e.target.value)} />
                 </div>
                 <div>
                   <label style={lbl}>Plan to Return?</label>
@@ -513,7 +512,7 @@ export default function EduROI() {
                 {planReturn && (
                   <div>
                     <label style={lbl}>Return after (yrs)</label>
-                    <input className="inp-field" type="number" style={inpStyle} value={returnAfter} onChange={e => setReturnAfter(+e.target.value)} />
+                    <input className="inp-field" type="number" style={inpStyle} value={returnAfter ?? ''} onChange={e => setReturnAfter(e.target.value === '' ? null : +e.target.value)} />
                   </div>
                 )}
               </div>
@@ -522,11 +521,11 @@ export default function EduROI() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 9 }}>
                 <div>
                   <label style={lbl}>INR Depreciation (%/yr)</label>
-                  <input className="inp-field" type="number" style={inpStyle} value={inrDrift} onChange={e => setInrDrift(+e.target.value)} step="0.1" />
+                  <input className="inp-field" type="number" style={inpStyle} value={inrDrift ?? ''} onChange={e => setInrDrift(e.target.value === '' ? null : +e.target.value)} step="0.1" />
                 </div>
                 <div>
                   <label style={lbl}>Destination Inflation (%) <a href="https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG" target="_blank" rel="noopener noreferrer" style={{ color: C.faint, fontSize: 9, fontFamily: F.mono, textDecoration: 'none', borderBottom: `1px dotted ${C.faint}`, letterSpacing: 0 }}>World Bank ↗</a></label>
-                  <input className="inp-field" type="number" style={inpStyle} value={inflation ?? co.inflation} onChange={e => setInflation(+e.target.value)} step="0.1" />
+                  <input className="inp-field" type="number" style={inpStyle} value={inflation ?? co.inflation} onChange={e => setInflation(e.target.value === '' ? null : +e.target.value)} step="0.1" />
                 </div>
               </div>
             </div>
