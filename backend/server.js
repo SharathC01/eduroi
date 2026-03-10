@@ -92,23 +92,6 @@ app.get("/api/defaults", (req, res) => {
   res.json(DEFAULTS);
 });
 
-// GET /api/visits — persistent page-view counter backed by Vercel KV (free Redis)
-// Increments on every call, returns the running total
-app.get("/api/visits", async (req, res) => {
-  try {
-    const { createClient } = await import("@vercel/kv");
-    const kv = createClient({
-      url: process.env.KV_REST_API_URL,
-      token: process.env.KV_REST_API_TOKEN,
-    });
-    const count = await kv.incr("eduroi_visits");
-    res.json({ count });
-  } catch {
-    // KV not configured (local dev) or unavailable — return null silently
-    res.json({ count: null });
-  }
-});
-
 // Export for Vercel serverless — Vercel calls the handler directly, no listen() needed
 export default app;
 

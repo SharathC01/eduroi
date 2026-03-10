@@ -149,14 +149,7 @@ export default function EduROI() {
   const [countries, setCountries] = useState(COUNTRY_DEFAULTS);
   const [dataStatus, setDataStatus] = useState('loading'); // 'loading' | 'live' | 'estimates'
   const [fetchedAt, setFetchedAt] = useState(null);
-  const [visitorCount, setVisitorCount] = useState(null);
-
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/visits`)
-      .then(r => r.ok ? r.json() : null)
-      .then(d => { if (d?.count) setVisitorCount(d.count); })
-      .catch(() => {});
-
     setDataStatus('loading');
     Promise.allSettled([
       fetch(`${API_BASE_URL}/api/rates`).then(r => { if (!r.ok) throw new Error(); return r.json(); }),
@@ -336,12 +329,6 @@ export default function EduROI() {
         <div style={{ width: 1, height: 18, background: C.border }} />
         <span style={{ fontSize: 14, color: C.faint }}>Higher Education Investment Calculator</span>
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
-          {visitorCount !== null && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: C.surface2, border: `1px solid ${C.border}`, borderRadius: 100, padding: '3px 11px', fontSize: 12, color: C.faint, fontFamily: F.mono }}>
-              <span style={{ width: 5, height: 5, borderRadius: '50%', background: C.accent, display: 'inline-block' }} />
-              {visitorCount.toLocaleString('en-IN')} visits
-            </div>
-          )}
           <div style={{ background: 'rgba(134,239,172,0.07)', border: '1px solid rgba(134,239,172,0.18)', borderRadius: 100, padding: '3px 11px', fontSize: 12, color: C.positive, letterSpacing: '0.03em' }}>
             For Indian Students
           </div>
